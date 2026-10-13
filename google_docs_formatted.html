@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تطبيق مفتاحي الكلية - شرح الأكواد والمعمارية (مخصص لـ Google Docs)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.8;
+      color: #111827;
+      background-color: #ffffff;
+      padding: 30px;
+      direction: rtl;
+    }
+    h1 {
+      color: #0369a1;
+      font-size: 26pt;
+      border-bottom: 3px solid #0284c7;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+    h2 {
+      color: #0f766e;
+      font-size: 18pt;
+      margin-top: 28px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 6px;
+    }
+    h3 {
+      color: #1e3a8a;
+      font-size: 14pt;
+      margin-top: 20px;
+    }
+    p, li {
+      font-size: 12pt;
+    }
+    .badge {
+      background-color: #e0f2fe;
+      color: #0369a1;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+    .callout {
+      background-color: #f0fdf4;
+      border-right: 5px solid #16a34a;
+      padding: 14px 18px;
+      margin: 16px 0;
+      border-radius: 6px;
+    }
+    .callout-title {
+      font-weight: bold;
+      color: #15803d;
+      font-size: 13pt;
+      margin-bottom: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 11pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      text-align: right;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: bold;
+    }
+    pre {
+      background-color: #1e293b;
+      color: #f8fafc;
+      padding: 16px;
+      border-radius: 8px;
+      direction: ltr;
+      text-align: left;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 10pt;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Consolas', 'Courier New', monospace;
+    }
+    .code-inline {
+      background-color: #f1f5f9;
+      color: #0369a1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      direction: ltr;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <span class="badge">📄 مستند جاهز للنسخ واللصق المباشر في Google Docs</span>
+  
+  <h1>تطبيق مفتاحي الكلية - شرح المعمارية والأكواد البرمجية سطرًا بسطر</h1>
+  <p><strong>الموضوع:</strong> توثيق الشرح البرمجي الكامل لتطبيق استعادة المفاتيح المفقودة في الكلية (مثال: قاعة 202) والتنسيق المباشر مع رجال الأمن والمباني.</p>
+  <p><strong>التقنيات المستخدمة:</strong> React 18 + Tailwind CSS + Web Audio API + LocalStorage API</p>
+
+  <hr>
+
+  <h2>📂 1. خريطة ملفات المشروع (File Structure)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>مسار الملف</th>
+        <th>الوظيفة والمسؤولية</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>src/utils/audio.js</code></td>
+        <td>كلاس الصوتيات لتوليد صفارات الإنذار ونغمات النجاح والرسائل برمجياً.</td>
+      </tr>
+      <tr>
+        <td><code>src/utils/storage.js</code></td>
+        <td>دوال الحفظ والقراءة التلقائية في LocalStorage للبلاغات والمحادثات.</td>
+      </tr>
+      <tr>
+        <td><code>src/context/AppContext.jsx</code></td>
+        <td>إدارة الحالة المركزية للبلاغات والتبديل بين دور الطالب ورجل الأمن.</td>
+      </tr>
+      <tr>
+        <td><code>src/App.jsx</code></td>
+        <td>واجهة العرض الرئيسية والبنر العاجل السريع المخصص لقاعة 202.</td>
+      </tr>
+      <tr>
+        <td><code>src/components/ReportLostModal.jsx</code></td>
+        <td>نموذج إرسال بلاغ مفتاح مفقود مع زر تعبئة قاعة 202 التلقائي.</td>
+      </tr>
+      <tr>
+        <td><code>src/components/ReportCard.jsx</code></td>
+        <td>بطاقة البلاغ وتثبيت بنر موقع العثور على المفتاح.</td>
+      </tr>
+      <tr>
+        <td><code>src/components/ChatModal.jsx</code></td>
+        <td>شاشة المحادثة المباشرة وتأكيد مكان المفتاح برمجياً.</td>
+      </tr>
+      <tr>
+        <td><code>src/components/SecurityDashboard.jsx</code></td>
+        <td>لوحة تحكم رجال الأمن والإحصائيات وتأكيد تسليم المفاتيح.</td>
+      </tr>
+      <tr>
+        <td><code>src/components/CampusMap.jsx</code></td>
+        <td>الخريطة التفاعلية ومواقع القاعات والمباني بالكلية.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>🔊 2. كلاس الصوتيات والتنبيهات البرمجية (src/utils/audio.js)</h2>
+  <p>يعتمد الملف على Web Audio API لتوليد أصوات التنبيه دون الحاجة لملفات صوت خارجية:</p>
+
+  <pre><code>// src/utils/audio.js
+
+class SoundEffects {
+  constructor() {
+    this.ctx = null;     // سياق الصوت المعرف من المتصفح
+    this.enabled = true; // مفتاح تفعيل/تعطيل الصوت
+  }
+
+  // دالة تهيئة سياق الصوت
+  initContext() {
+    if (!this.ctx && typeof window !== 'undefined') {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) this.ctx = new AudioCtx();
+    }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
+  }
+
+  // دالة تشغيل صوت الإنذار الأمني (عند الإبلاغ عن مفتاح مفقود بقاعة 202)
+  playAlertSound() {
+    if (!this.enabled) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sawtooth'; // موجة مشرشرة للإنذار
+    osc.frequency.setValueAtTime(880, now);          // نغمة A5 (880Hz)
+    osc.frequency.setValueAtTime(1174.66, now + 0.15); // نغمة D6 (1174Hz)
+    osc.frequency.setValueAtTime(880, now + 0.3);
+    osc.frequency.setValueAtTime(1174.66, now + 0.45);
+
+    gain.gain.setValueAtTime(0.3, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.6); // إيقاف الصوت بعد 0.6 ثانية
+  }
+
+  // دالة تشغيل صوت النجاح (عند تأكيد مكان العثور على المفتاح)
+  playSuccessSound() {
+    if (!this.enabled) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(523.25, now);       // C5
+    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+    osc.frequency.setValueAtTime(1046.50, now + 0.3);// C6 (سلم نغمات صاعد)
+
+    gain.gain.setValueAtTime(0.2, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.6);
+  }
+}
+
+export const sounds = new SoundEffects();</code></pre>
+
+  <h2>💾 3. دوال التخزين التلقائي (src/utils/storage.js)</h2>
+  <pre><code>// src/utils/storage.js
+
+const STORAGE_KEY = 'college_keys_reports_v1';
+
+// قراءة البلاغات المخزنة أو إرجاع البلاغ الافتراضي لقاعة 202
+export function getInitialReports() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try { return JSON.parse(saved); } catch (e) { console.error(e); }
+  }
+  return [{
+    id: 'KEY-2026-001',
+    type: 'lost',
+    title: 'مفتاح قاعة 202 (مبنى أ - الهندسة)',
+    building: 'مبنى أ - الهندسة',
+    room: 'قاعة 202',
+    description: 'تم فقدان المفتاح الخاص بالقاعة بعد نهاية محاضرة البرمجة.',
+    keychainTag: 'ميدالية سوداء برقم 202',
+    status: 'searching',
+    reporterName: 'د. عبد الله أحمد',
+    dateLost: new Date().toISOString(),
+    foundLocation: null,
+    messages: []
+  }];
+}
+
+// حفظ البلاغات في LocalStorage
+export function saveReports(reports) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(reports));
+}
+
+// تحديث موقع المفتاح المكتشف برمجياً
+export function resolveReportLocationInStorage(reportId, status, location, finderName) {
+  const reports = getInitialReports();
+  const updated = reports.map(r => {
+    if (r.id === reportId) {
+      return {
+        ...r,
+        status: status,           // تحويل الحالة إلى (found)
+        foundLocation: location, // كتابة النص المحدد للموقع
+        foundBy: finderName || r.foundBy
+      };
+    }
+    return r;
+  });
+  saveReports(updated);
+  return updated;
+}</code></pre>
+
+  <h2>🖥️ 4. واجهة التطبيق والبنر السريع (src/App.jsx)</h2>
+  <pre><code>// src/App.jsx (مقتطف منطق العرض والفلترة وبنر قاعة 202)
+
+function MainAppContent() {
+  const { reports, searchQuery, selectedRoom, setChatReport } = useApp();
+
+  // تصفية البلاغات حسب البحث ورقم القاعة
+  const filteredReports = reports.filter(r => {
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      if (!r.room?.toLowerCase().includes(q) && !r.title?.toLowerCase().includes(q)) return false;
+    }
+    if (selectedRoom !== 'ALL' && !r.room?.includes(selectedRoom)) return false;
+    return true;
+  });
+
+  // استخراج بلاغ قاعة 202 بشكل خاص لإظهاره في البنر العلوي
+  const room202Report = reports.find(r => r.room && r.room.includes('202'));
+
+  return (
+    &lt;div className="min-h-screen bg-slate-950 text-slate-100"&gt;
+      &lt;Navbar /&gt;
+
+      &lt;main className="max-w-7xl mx-auto px-4 py-8 space-y-8"&gt;
+        
+        {/* بنر الطوارئ المباشر لقاعة 202 */}
+        {room202Report && (
+          &lt;div className="glass-panel-accent rounded-3xl p-6 border border-cyan-400/40"&gt;
+            &lt;div className="flex items-center justify-between"&gt;
+              &lt;div&gt;
+                &lt;span className="bg-cyan-500 text-slate-950 font-black text-[10px] px-2.5 py-0.5 rounded-full"&gt;
+                  بلاغ عاجل متفاعل 🔑
+                &lt;/span&gt;
+                &lt;h2 className="text-base font-extrabold text-white mt-1"&gt;
+                  حالة مفتاح قاعة 202 (مبنى أ - الهندسة)
+                &lt;/h2&gt;
+                &lt;p className="text-xs text-slate-300 mt-1"&gt;
+                  {room202Report.status === 'found' ? (
+                    &lt;span className="text-emerald-300 font-extrabold"&gt;
+                      📍 تم العثور على المفتاح: {room202Report.foundLocation}
+                    &lt;/span&gt;
+                  ) : (
+                    &lt;span&gt;جاري البحث بواسطة رجال الأمن والكلية...&lt;/span&gt;
+                  )}
+                &lt;/p&gt;
+              &lt;/div&gt;
+
+              &lt;button onClick={() =&gt; setChatReport(room202Report)} className="btn-primary"&gt;
+                فتح متابعة بلاغ قاعة 202 &larr;
+              &lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        )}
+
+      &lt;/main&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+  <div class="callout">
+    <div class="callout-title">📋 تعليمات اللصق في مستندات Google Docs:</div>
+    <ol>
+      <li>قم بتحديد النص كاملاً (Ctrl + A) ثم احسخ (Ctrl + C).</li>
+      <li>افتح مستند جديد في <strong>Google Docs (مستندات جوجل)</strong>.</li>
+      <li>قم باللصق (Ctrl + V). سيتنسق التقرير بنفس الألوان والخطوط والأكواد والجداول بشكل غاية في الترتيب والوضوح!</li>
+    </ol>
+  </div>
+
+</body>
+</html>
